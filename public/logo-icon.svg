@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&amp;display=swap');
+    </style>
+    <radialGradient id="cg" cx="40%" cy="35%" r="65%">
+      <stop offset="0%"   stop-color="#9B2035"/>
+      <stop offset="100%" stop-color="#5C0D1A"/>
+    </radialGradient>
+    <filter id="sh">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#00000044"/>
+    </filter>
+  </defs>
+  <circle cx="40" cy="40" r="38" fill="url(#cg)" filter="url(#sh)"/>
+  <circle cx="40" cy="40" r="34"   fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.9"/>
+  <circle cx="40" cy="40" r="30.5" fill="none" stroke="rgba(255,255,255,0.2)"  stroke-width="0.5"/>
+  <text x="40" y="53"
+        font-family="'Great Vibes', 'Palatino Linotype', cursive"
+        font-size="36"
+        fill="white"
+        text-anchor="middle">RL</text>
+</svg>

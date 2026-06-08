@@ -12,17 +12,19 @@ import StepSummary from './steps/StepSummary';
 import './App.css';
 
 const INITIAL_DATA = {
-  personal: { vorname: '', nachname: '', email: '', telefon: '', strasse: '', plz: '', ort: '' },
+  personal: { vorname: '', nachname: '', email: '', telefon: '', strasse: '', plz: '', ort: '', police_nr: '' },
   fahrzeug: { kennzeichen: '', marke: '' },
   schadensart: '',
-  scheibe: { reparatur: '', beschreibung: '' },
+  scheibe: { reparatur: '', datum: '', beschreibung: '' },
   unfall: {
+    fahrer_ist_vn: '',
     fahrer_name: '',
     fuehrerschein_vorne: null,
     fuehrerschein_hinten: null,
     nie_dokument: null,
     datum: '', uhrzeit: '', schuld: '',
-    ort: '', hergang: '',
+    ort_strasse: '', ort_plz: '', ort_ort: '',
+    hergang: '',
     unfallbogen: '', unfallbogen_bild: null,
     polizei: '', polizei_bericht: null,
     zeugen: '', zeugen_info: '',
@@ -31,7 +33,11 @@ const INITIAL_DATA = {
     beschreibung: '',
     bilder: [],
     werkstatt: '',
-    werkstatt_daten: '',
+    werkstatt_name: '',
+    werkstatt_tel: '',
+    werkstatt_strasse: '',
+    werkstatt_plz: '',
+    werkstatt_ort: '',
     gutachter_termin: '',
   },
   gegner: {
@@ -42,14 +48,14 @@ const INITIAL_DATA = {
   },
   gegnerSchaden: { beschreibung: '', bilder: [] },
   personenschaden: { hat_schaden: '', beschreibung: '', arztbericht: null },
-  diebstahl: { datum: '', uhrzeit: '', ort: '', beschreibung: '', polizei: '', polizei_bericht: null },
+  diebstahl: { polizei_bericht: null },
 };
 
 // Steps: 0=personal, 1=fahrzeug, 2=schadensart, 3=details, 4=summary
 const STEP_IDS = ['personal', 'fahrzeug', 'schadensart', 'details', 'summary'];
 
 function computeStepStatus(formData) {
-  const { personal, fahrzeug, schadensart, scheibe, unfall, eigenSchaden, personenschaden, diebstahl } = formData;
+  const { personal, fahrzeug, schadensart, scheibe, unfall, eigenSchaden, gegner, gegnerSchaden, personenschaden, diebstahl } = formData;
 
   // Personal
   const personalFields = ['vorname', 'nachname', 'email', 'telefon', 'strasse', 'plz', 'ort'];
@@ -70,18 +76,36 @@ function computeStepStatus(formData) {
     detailsDone = !!(scheibe.reparatur && scheibe.beschreibung);
     detailsPartial = !!(scheibe.reparatur || scheibe.beschreibung);
   } else if (schadensart === 'unfall_gegner' || schadensart === 'unfall_eigen') {
+    const fahrer_ist_vn = unfall.fahrer_ist_vn;
+    const fahrerFieldsOk = fahrer_ist_vn === 'ja' ||
+      (fahrer_ist_vn === 'nein' && unfall.fahrer_name && unfall.fuehrerschein_vorne && unfall.fuehrerschein_hinten && unfall.nie_dokument);
     const required = [
-      unfall.fahrer_name, unfall.datum, unfall.schuld, unfall.ort, unfall.hergang,
-      unfall.unfallbogen, unfall.polizei, unfall.zeugen,
+      fahrer_ist_vn,
+      unfall.datum,
+      ...(schadensart === 'unfall_gegner' ? [unfall.schuld] : []),
+      unfall.ort_strasse, unfall.ort_plz, unfall.ort_ort,
+      unfall.hergang,
+      ...(schadensart === 'unfall_gegner' ? [unfall.unfallbogen] : []),
+      unfall.polizei, unfall.zeugen,
       eigenSchaden.beschreibung, eigenSchaden.werkstatt,
       personenschaden.hat_schaden,
     ];
-    const filledCount = required.filter(Boolean).length;
-    detailsDone = filledCount === required.length;
+    const werkstattExtra = eigenSchaden.werkstatt === 'eigen'
+      ? [eigenSchaden.werkstatt_name, eigenSchaden.werkstatt_tel, eigenSchaden.werkstatt_strasse, eigenSchaden.werkstatt_plz, eigenSchaden.werkstatt_ort, eigenSchaden.gutachter_termin]
+      : [];
+    const personenExtra = personenschaden.hat_schaden === 'ja'
+      ? [personenschaden.beschreibung]
+      : [];
+    const gegnerExtra = schadensart === 'unfall_gegner'
+      ? [gegner.kennzeichen, gegner.land, gegner.marke_modell, gegner.ist_inhaber, gegnerSchaden.beschreibung]
+      : [];
+    const filledCount = [...required, ...werkstattExtra, ...personenExtra, ...gegnerExtra].filter(Boolean).length;
+    const totalCount = required.length + werkstattExtra.length + personenExtra.length + gegnerExtra.length;
+    detailsDone = filledCount === totalCount && !!fahrerFieldsOk && eigenSchaden.bilder && eigenSchaden.bilder.length > 0;
     detailsPartial = filledCount > 0;
   } else if (schadensart === 'diebstahl') {
-    detailsDone = !!(diebstahl.datum && diebstahl.ort && diebstahl.beschreibung && diebstahl.polizei);
-    detailsPartial = !!(diebstahl.datum || diebstahl.beschreibung);
+    detailsDone = !!(diebstahl && diebstahl.polizei_bericht);
+    detailsPartial = false;
   }
   const detailsStatus = detailsDone ? 'done' : detailsPartial ? 'partial' : 'empty';
 
@@ -106,6 +130,7 @@ export default function FormApp({ lang }) {
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState('');
+  const [datenschutz, setDatenschutz] = useState(false);
   const [draftLoaded, setDraftLoaded] = useState(false);
 
   // Load from localStorage on mount
@@ -188,8 +213,8 @@ export default function FormApp({ lang }) {
   };
 
   const statusColor = (status, isActive) => {
-    if (isActive) return '#1a56db';
-    if (status === 'done') return '#10b981';
+    if (isActive) return '#9B2035';
+    if (status === 'done') return '#9B2035';
     if (status === 'partial') return '#f59e0b';
     return '#9ca3af';
   };
@@ -293,6 +318,8 @@ export default function FormApp({ lang }) {
       progress={progress}
       honeypot={honeypot}
       onHoneypot={setHoneypot}
+      datenschutz={datenschutz}
+      onDatenschutz={setDatenschutz}
       t={t}
     />,
   ];
@@ -300,24 +327,22 @@ export default function FormApp({ lang }) {
   return (
     <div className="app-container">
       <header className="app-header">
-        <div className="header-logo">🚗</div>
-        <div>
-          <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 2, fontWeight: 600 }}>{t.header.name}</div>
-          <h1>{t.header.title}</h1>
-          <p>{t.header.subtitle}</p>
-        </div>
+        <img src="/logo.png" alt="Rita Last Insurance" style={{ height: 52 }} />
+        <span style={{ fontSize: 13, color: '#5a5a72', fontWeight: 500 }}>
+          {lang === 'de' ? 'KFZ-Schadensmeldung' : 'Car Accident Claim Report'}
+        </span>
       </header>
 
       {draftLoaded && (
         <div style={{
-          background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8,
+          background: '#fdf8f8', border: '1px solid #d4829a', borderRadius: 8,
           padding: '10px 16px', marginBottom: 16, fontSize: 13,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
         }}>
-          <span style={{ color: '#1e40af' }}>💾 {t.draft.notice}</span>
+          <span style={{ color: '#9B2035' }}>💾 {t.draft.notice}</span>
           <button
             onClick={clearDraft}
-            style={{ background: 'none', border: '1px solid #93c5fd', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 12, color: '#1e40af' }}
+            style={{ background: 'none', border: '1px solid #d4829a', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 12, color: '#9B2035' }}
           >
             {t.draft.clear}
           </button>

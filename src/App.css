@@ -4,218 +4,381 @@
   padding: 0;
 }
 
+/* ─── FONTS ─────────────────────────────────────────────── */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #f0f4f8;
-  color: #1a202c;
-  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a2e;
+  background: #f7f7fa;
 }
 
+/* ─── APP CONTAINER ──────────────────────────────────────── */
 .app-container {
-  max-width: 860px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 24px 16px 60px;
+  padding: 0 0 40px;
+  background: #ffffff;
+  min-height: 100vh;
+  box-shadow: 0 0 40px rgba(0,0,0,0.08);
 }
 
-/* Header */
+/* ─── HEADER ─────────────────────────────────────────────── */
 .app-header {
+  background: #ffffff !important;
+  color: #1a1a2e !important;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  background: white;
-  padding: 20px 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  justify-content: space-between;
+  border-bottom: 2px solid #C8102E;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .header-logo {
-  font-size: 40px;
-  line-height: 1;
+  display: none;
 }
 
-.app-header h1 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1a56db;
+/* ─── PROGRESS BAR ───────────────────────────────────────── */
+.progress-bar-container {
+  background: #f0f0f5;
+  height: 4px;
 }
-
-.app-header p {
-  font-size: 13px;
-  color: #6b7280;
-  margin-top: 2px;
-}
-
-/* Progress Bar */
-.progress-wrapper {
-  background: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 20px;
-}
-
-.progress-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.progress-track {
-  height: 12px;
-  background: #e5e7eb;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
 .progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.4s ease, background-color 0.4s ease;
+  background: linear-gradient(90deg, #C8102E, #9e0c23);
+  height: 4px;
+  transition: width 0.4s ease;
 }
 
-.progress-fill.low    { background: #ef4444; }
-.progress-fill.medium { background: #f59e0b; }
-.progress-fill.high   { background: #3b82f6; }
-.progress-fill.done   { background: #10b981; }
-
-/* Step Nav */
+/* ─── STEP NAV ───────────────────────────────────────────── */
 .step-nav {
   display: flex;
-  gap: 4px;
-  margin-bottom: 20px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  border-bottom: 1px solid #e8e8ef;
+  background: #fff;
+  padding: 0 8px;
 }
-
 .step-item {
   flex: 1;
-  min-width: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 6px;
-  background: white;
-  border-radius: 10px;
+  min-width: 80px;
+  padding: 12px 8px;
+  text-align: center;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s;
   font-size: 11px;
-  color: #9ca3af;
+  font-weight: 500;
+  color: #5a5a72;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
-
-.step-item:hover {
-  border-color: #93c5fd;
-  color: #3b82f6;
-}
-
+.step-item:hover { color: #C8102E; }
 .step-item.active {
-  border-color: #1a56db;
-  background: #eff6ff;
-  color: #1a56db;
+  color: #C8102E;
+  border-bottom-color: #C8102E;
   font-weight: 600;
 }
-
 .step-item.done {
-  color: #10b981;
-  border-color: #a7f3d0;
-  background: #f0fdf4;
+  color: #C8102E;
 }
 
-.step-icon {
-  font-size: 18px;
-}
-
-.step-label {
-  text-align: center;
-  line-height: 1.2;
-}
-
-/* Form Card */
+/* ─── FORM CARD ──────────────────────────────────────────── */
 .form-card {
-  background: white;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 32px 24px;
 }
 
-/* Step title */
+/* ─── STEP TITLE ─────────────────────────────────────────── */
 .step-title {
-  font-size: 20px;
-  font-weight: 700;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a2e;
   margin-bottom: 6px;
-  color: #111827;
 }
-
 .step-subtitle {
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 28px;
+  color: #5a5a72;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
 }
 
-/* Form fields */
+/* ─── BUTTONS ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: #C8102E;
+  color: white;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #9e0c23;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(200,16,46,0.35);
+}
+.btn-primary:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn-secondary {
+  background: #f7f7fa;
+  color: #5a5a72;
+  border: 1px solid #e0e0e8;
+}
+.btn-secondary:hover:not(:disabled) {
+  background: #e8e8ef;
+}
+.btn-success {
+  background: #C8102E;
+  color: white;
+}
+.btn-success:hover:not(:disabled) {
+  background: #9e0c23;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(200,16,46,0.35);
+}
+.btn-success:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+.btn-hogar {
+  background: #C8102E;
+  color: white;
+}
+
+/* ─── INPUTS ─────────────────────────────────────────────── */
+input, select, textarea {
+  font-family: 'Inter', sans-serif;
+  border: 1.5px solid #e0e0e8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  background: #fff;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #C8102E;
+  box-shadow: 0 0 0 3px rgba(200,16,46,0.1);
+}
+input.filled, select.filled, textarea.filled {
+  border-color: #C8102E;
+  background: #fff8f9;
+}
+input.field-error, select.field-error, textarea.field-error {
+  border-color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+/* ─── FIELD LABELS ───────────────────────────────────────── */
+.field-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+  display: block;
+}
+.required-star { color: #C8102E; }
+.optional-badge {
+  font-size: 0.75rem;
+  color: #5a5a72;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* ─── SUMMARY ────────────────────────────────────────────── */
+.summary-section {
+  border: 1px solid #e8e8ef;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+.summary-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #C8102E;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f5;
+}
+.summary-row {
+  display: flex;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+.summary-label {
+  color: #5a5a72;
+  font-weight: 500;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+.summary-value {
+  color: #1a1a2e;
+  font-weight: 400;
+}
+
+/* ─── SUCCESS CARD ───────────────────────────────────────── */
+.success-card {
+  text-align: center;
+  padding: 60px 24px;
+}
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+.success-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  color: #1a1a2e;
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+/* ─── ERROR MESSAGE ──────────────────────────────────────── */
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+/* ─── UPLOAD AREA ────────────────────────────────────────── */
+.upload-area {
+  border: 2px dashed #e0e0e8;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: block;
+}
+.upload-area:hover {
+  border-color: #C8102E;
+  background: #fff8f9;
+}
+.upload-area input { display: none; }
+
+/* ─── IMAGE PREVIEW ──────────────────────────────────────── */
+.image-preview-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.image-thumb {
+  position: relative;
+  width: 90px;
+}
+.image-thumb img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #e0e0e8;
+}
+.image-thumb button {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #C8102E;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── STEP NAV BUTTONS ───────────────────────────────────── */
+.step-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f5;
+}
+
+/* ─── DRAFT NOTICE ───────────────────────────────────────── */
+.draft-notice {
+  background: #fff8e1;
+  border: 1px solid #C9A84C;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 0 24px 16px;
+  font-size: 0.85rem;
+  color: #7a6000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ─── SCHADENSART CARDS ──────────────────────────────────── */
+.schadensart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+.schadensart-card {
+  border: 2px solid #e0e0e8;
+  border-radius: 14px;
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  background: #fff;
+}
+.schadensart-card:hover {
+  border-color: #C8102E;
+  background: #fff8f9;
+}
+.schadensart-card.selected {
+  border-color: #C8102E;
+  background: #fff8f9;
+  box-shadow: 0 0 0 3px rgba(200,16,46,0.12);
+}
+.schadensart-card .card-icon { font-size: 2rem; margin-bottom: 8px; }
+.schadensart-card .card-label { font-weight: 600; color: #1a1a2e; font-size: 0.9rem; }
+
+/* ─── FORM GRID ──────────────────────────────────────────── */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
+.form-grid.single { grid-template-columns: 1fr; }
+.field-full, [class*="full"] { grid-column: 1 / -1; }
 
-.form-grid.single {
-  grid-template-columns: 1fr;
-}
-
+/* ─── FORM GROUP ─────────────────────────────────────────── */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-group.full {
-  grid-column: 1 / -1;
-}
-
-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #374151;
-}
-
-label .required {
-  color: #ef4444;
-  margin-left: 2px;
-}
-
-input, select, textarea {
-  padding: 10px 14px;
-  border: 1.5px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-family: inherit;
-  background: white;
-  color: #111827;
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: #1a56db;
-  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.12);
-}
-
-input.filled, select.filled, textarea.filled {
-  border-color: #10b981;
-  background: #f0fdf4;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* Radio group */
+/* ─── RADIO GROUP ────────────────────────────────────────── */
 .radio-group {
   display: flex;
   gap: 12px;
@@ -227,17 +390,17 @@ textarea {
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  border: 1.5px solid #d1d5db;
-  border-radius: 8px;
+  border: 1.5px solid #e0e0e8;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 14px;
+  font-size: 0.95rem;
 }
 
 .radio-option:has(input:checked) {
-  border-color: #1a56db;
-  background: #eff6ff;
-  color: #1a56db;
+  border-color: #C8102E;
+  background: #fff8f9;
+  color: #C8102E;
   font-weight: 600;
 }
 
@@ -250,216 +413,59 @@ textarea {
   background: none;
 }
 
-/* Navigation buttons */
-.step-nav-buttons {
+/* ─── LABEL ──────────────────────────────────────────────── */
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+label .required {
+  color: #C8102E;
+  margin-left: 2px;
+}
+
+label .required-hogar {
+  color: #C8102E;
+  margin-left: 2px;
+}
+
+/* ─── TEXTAREA ───────────────────────────────────────────── */
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ─── PROGRESS WRAPPER ───────────────────────────────────── */
+.progress-wrapper {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e8e8ef;
+}
+
+.progress-header {
   display: flex;
   justify-content: space-between;
-  margin-top: 32px;
-  gap: 12px;
-}
-
-.btn {
-  padding: 12px 28px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: #1a56db;
-  color: white;
-  margin-left: auto;
-}
-
-.btn-primary:hover {
-  background: #1e429f;
-}
-
-.btn-primary:disabled {
-  background: #93c5fd;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.btn-secondary:hover {
-  background: #e5e7eb;
-}
-
-.btn-success {
-  background: #10b981;
-  color: white;
-  padding: 14px 36px;
-  font-size: 16px;
-}
-
-.btn-success:hover:not(:disabled) {
-  background: #059669;
-}
-
-.btn-success:disabled {
-  background: #6ee7b7;
-  cursor: not-allowed;
-}
-
-/* Image upload */
-.upload-area {
-  border: 2px dashed #d1d5db;
-  border-radius: 12px;
-  padding: 32px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  color: #6b7280;
-}
-
-.upload-area:hover {
-  border-color: #1a56db;
-  background: #eff6ff;
-  color: #1a56db;
-}
-
-.upload-area input[type="file"] {
-  display: none;
-}
-
-.upload-icon {
-  font-size: 36px;
   margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.image-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.image-thumb {
-  position: relative;
-  aspect-ratio: 1;
-}
-
-.image-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #e5e7eb;
-}
-
-.image-thumb button {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #ef4444;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Summary */
-.summary-section {
-  margin-bottom: 24px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
+.progress-track {
+  height: 6px;
+  background: #f0f0f5;
+  border-radius: 999px;
   overflow: hidden;
 }
 
-.summary-section-title {
-  background: #f9fafb;
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #374151;
-  border-bottom: 1.5px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.summary-row {
-  display: flex;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.summary-row:last-child {
-  border-bottom: none;
-}
-
-.summary-label {
-  width: 180px;
-  flex-shrink: 0;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.summary-value {
-  color: #111827;
-}
-
-.error-message {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-top: 16px;
-  font-size: 14px;
-}
-
-/* Success */
-.success-card {
-  text-align: center;
-  background: white;
-  border-radius: 16px;
-  padding: 60px 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  margin-top: 40px;
-}
-
-.success-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-}
-
-.success-card h2 {
-  font-size: 28px;
-  color: #10b981;
-  margin-bottom: 12px;
-}
-
-.success-card p {
+/* ─── STEP ICON & LABEL ──────────────────────────────────── */
+.step-icon {
   font-size: 16px;
-  color: #6b7280;
-  line-height: 1.7;
 }
 
-/* Optional badge */
-.optional-badge {
-  font-size: 11px;
-  font-weight: 400;
-  background: #f3f4f6;
-  color: #9ca3af;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 6px;
+.step-label {
+  text-align: center;
+  line-height: 1.2;
 }
 
 @media (max-width: 600px) {
@@ -475,7 +481,7 @@ textarea {
     padding: 8px 4px;
   }
   .step-icon {
-    font-size: 16px;
+    font-size: 14px;
   }
   .step-label {
     display: none;
