@@ -35,9 +35,13 @@ function getMissingFields(formData) {
   if (!objekt.baujahr) missing.push('Baujahr');
   if (!objekt.saniert) missing.push('Sanierung (Ja/Nein)');
   if (objekt.saniert === 'ja' && !objekt.saniert_jahr) missing.push('Jahr der Sanierung');
-  if (!nutzung.art) missing.push('Nutzungsart');
-  if (nutzung.art === 'eigennutzung' && !nutzung.eigennutzung_typ) missing.push('Eigennutzungstyp');
-  if (nutzung.art === 'vermietet' && !nutzung.vermietung_typ) missing.push('Vermietungstyp');
+  if (!nutzung.rolle) missing.push('Eigentümer/in oder Mieter/in');
+  if (nutzung.rolle === 'eigentuemer') {
+    if (!nutzung.art) missing.push('Art der Eigentumsnutzung');
+    if (nutzung.art === 'eigennutzung' && !nutzung.eigennutzung_typ) missing.push('Wohnsitzart');
+    if (nutzung.art === 'vermietet' && !nutzung.vermietung_typ) missing.push('Vermietungsart');
+  }
+  if (nutzung.rolle === 'mieter' && !nutzung.mieter_typ) missing.push('Wohnsitzart');
   if (!flaechen.bebaute_flaeche) missing.push('Bebaute Fläche');
   if (!flaechen.weitere_flaechen) missing.push('Weitere Nutzflächen');
   if (!werte.wiederaufbauwert) missing.push('Wiederaufbauwert');
@@ -50,8 +54,9 @@ function getMissingFields(formData) {
 const OBJEKT_TYP_LABELS = { wohnung: 'Wohnung', haus: 'Haus' };
 const LAGE_LABELS = { erdgeschoss: 'Erdgeschoss', obergeschoss: 'Obergeschoss', mittelgeschoss: 'Mittelgeschoss' };
 const HAUSART_LABELS = { reihenhaus: 'Reihenhaus', alleinstehendes_haus: 'Alleinstehendes Haus' };
-const NUTZUNG_LABELS = { eigennutzung: 'Eigennutzung', vermietet: 'Vermietet' };
-const EIGENNUTZUNG_LABELS = { hauptwohnsitz: 'Hauptwohnsitz', nebenwohnsitz: 'Nebenwohnsitz' };
+const ROLLE_LABELS = { eigentuemer: 'Eigentümer/in', mieter: 'Mieter/in' };
+const NUTZUNG_LABELS = { eigennutzung: 'Eigentum mit Eigennutzung', vermietet: 'Eigentum mit Vermietung' };
+const WOHNSITZ_LABELS = { hauptwohnsitz: 'Hauptwohnsitz', nebenwohnsitz: 'Nebenwohnsitz' };
 const VERMIETUNG_LABELS = { langzeit: 'Langzeitvermietung', saisonal: 'Saisonale Vermietung', touristisch: 'Touristische Vermietung' };
 
 export default function StepHogarSummary({ formData, onPrev, onSubmit, submitError, submitting, datenschutz, onDatenschutz }) {
@@ -86,14 +91,16 @@ export default function StepHogarSummary({ formData, onPrev, onSubmit, submitErr
         <SummaryRow label="Komplett saniert" value={objekt.saniert === 'ja' ? 'Ja' : objekt.saniert === 'nein' ? 'Nein' : ''} />
         {objekt.saniert === 'ja' && <SummaryRow label="Jahr der Sanierung" value={objekt.saniert_jahr} />}
         <SummaryRow label="Kataster-Nummer" value={objekt.kataster} />
-      </SummarySection>
-
-      <SummarySection title="Nutzung & Flächen" icon="🏡">
-        <SummaryRow label="Nutzungsart" value={NUTZUNG_LABELS[nutzung.art]} />
-        {nutzung.art === 'eigennutzung' && <SummaryRow label="Eigennutzungstyp" value={EIGENNUTZUNG_LABELS[nutzung.eigennutzung_typ]} />}
-        {nutzung.art === 'vermietet' && <SummaryRow label="Vermietungstyp" value={VERMIETUNG_LABELS[nutzung.vermietung_typ]} />}
         <SummaryRow label="Bebaute Fläche" value={flaechen.bebaute_flaeche ? `${flaechen.bebaute_flaeche} m²` : ''} />
         <SummaryRow label="Weitere Nutzflächen" value={flaechen.weitere_flaechen} />
+      </SummarySection>
+
+      <SummarySection title="Nutzung" icon="🏡">
+        <SummaryRow label="Rolle" value={ROLLE_LABELS[nutzung.rolle]} />
+        {nutzung.rolle === 'eigentuemer' && <SummaryRow label="Nutzungsart" value={NUTZUNG_LABELS[nutzung.art]} />}
+        {nutzung.rolle === 'eigentuemer' && nutzung.art === 'eigennutzung' && <SummaryRow label="Wohnsitzart" value={WOHNSITZ_LABELS[nutzung.eigennutzung_typ]} />}
+        {nutzung.rolle === 'eigentuemer' && nutzung.art === 'vermietet' && <SummaryRow label="Vermietungsart" value={VERMIETUNG_LABELS[nutzung.vermietung_typ]} />}
+        {nutzung.rolle === 'mieter' && <SummaryRow label="Wohnsitzart" value={WOHNSITZ_LABELS[nutzung.mieter_typ]} />}
       </SummarySection>
 
       <SummarySection title="Werte" icon="💰">

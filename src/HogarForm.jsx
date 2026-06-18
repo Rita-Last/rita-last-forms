@@ -21,9 +21,11 @@ const INITIAL_DATA = {
     kataster: '',
   },
   nutzung: {
+    rolle: '',
     art: '',
     eigennutzung_typ: '',
     vermietung_typ: '',
+    mieter_typ: '',
   },
   flaechen: {
     bebaute_flaeche: '',
@@ -39,7 +41,7 @@ const INITIAL_DATA = {
 const STEPS = [
   { id: 'personal', label: 'Persönliche Daten', icon: '👤' },
   { id: 'objekt', label: 'Objekt', icon: '🏠' },
-  { id: 'nutzung', label: 'Nutzung & Flächen', icon: '🏡' },
+  { id: 'nutzung', label: 'Nutzung', icon: '🏡' },
   { id: 'werte', label: 'Werte', icon: '💰' },
   { id: 'summary', label: 'Zusammenfassung', icon: '✅' },
 ];
@@ -56,13 +58,17 @@ function stepStatus(formData, idx) {
     const base = [objekt.typ, objekt.baujahr, objekt.saniert];
     const sub = objekt.typ === 'wohnung' ? [objekt.wohnung_lage] : objekt.typ === 'haus' ? [objekt.haus_art] : [];
     const sanJahr = objekt.saniert === 'ja' ? [objekt.saniert_jahr] : [];
-    const required = [...base, ...sub, ...sanJahr];
+    const required = [...base, ...sub, ...sanJahr, flaechen.bebaute_flaeche, flaechen.weitere_flaechen];
     const filled = required.filter(Boolean).length;
     return filled === required.length && required.length > 0 ? 'done' : filled > 0 ? 'partial' : 'empty';
   }
   if (idx === 2) {
+    if (!nutzung.rolle) return 'empty';
+    if (nutzung.rolle === 'mieter') {
+      return nutzung.mieter_typ ? 'done' : 'partial';
+    }
     const sub = nutzung.art === 'eigennutzung' ? [nutzung.eigennutzung_typ] : nutzung.art === 'vermietet' ? [nutzung.vermietung_typ] : [];
-    const required = [nutzung.art, ...sub, flaechen.bebaute_flaeche, flaechen.weitere_flaechen];
+    const required = [nutzung.rolle, nutzung.art, ...sub];
     const filled = required.filter(Boolean).length;
     return filled === required.length && required.length > 0 ? 'done' : filled > 0 ? 'partial' : 'empty';
   }
@@ -201,15 +207,15 @@ export default function HogarForm() {
       key="objekt"
       data={formData.objekt}
       onChange={patch => updateSection('objekt', patch)}
+      flaechen={formData.flaechen}
+      onChangeFlaechen={patch => updateSection('flaechen', patch)}
       onNext={next}
       onPrev={prev}
     />,
     <StepHogarNutzung
       key="nutzung"
       data={formData.nutzung}
-      flaechen={formData.flaechen}
       onChange={patch => updateSection('nutzung', patch)}
-      onChangeFlaechen={patch => updateSection('flaechen', patch)}
       onNext={next}
       onPrev={prev}
     />,

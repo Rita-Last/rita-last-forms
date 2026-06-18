@@ -61,7 +61,7 @@ export default function StepHogarWerte({ data, onChange, onNext, onPrev }) {
         <Field label="Wiederaufbauwert des Gebäudes in €" required>
           <input type="number" placeholder="z.B. 250000" min="0" {...f('wiederaufbauwert')} />
           <span style={{ fontSize: 12, color: '#9ca3af', marginTop: 2 }}>
-            Kosten für den vollständigen Wiederaufbau des Gebäudes
+            Kosten für den vollständigen Wiederaufbau des Gebäudes. Falls ohne Gebäude (z.B. als Mieter/in) bitte „0" schreiben.
           </span>
         </Field>
         <Field label="Wiederbeschaffungswert des Hausrates inkl. Küche in €" required>

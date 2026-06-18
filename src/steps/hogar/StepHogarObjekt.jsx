@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import Field from '../../components/Field';
 
-export default function StepHogarObjekt({ data, onChange, onNext, onPrev }) {
+export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlaechen, onNext, onPrev }) {
   const [attempted, setAttempted] = useState(false);
 
   const f = (field) => ({
     value: data[field] || '',
     onChange: e => onChange({ [field]: e.target.value }),
     className: attempted && !data[field] ? 'field-error' : data[field] ? 'filled' : '',
+  });
+
+  const ff = (field) => ({
+    value: flaechen[field] || '',
+    onChange: e => onChangeFlaechen({ [field]: e.target.value }),
+    className: attempted && !flaechen[field] ? 'field-error' : flaechen[field] ? 'filled' : '',
   });
 
   const selectTyp = (typ) => {
@@ -19,7 +25,8 @@ export default function StepHogarObjekt({ data, onChange, onNext, onPrev }) {
     (data.typ === 'wohnung' ? data.wohnung_lage : data.haus_art) &&
     data.baujahr &&
     data.saniert &&
-    (data.saniert === 'ja' ? data.saniert_jahr : true);
+    (data.saniert === 'ja' ? data.saniert_jahr : true) &&
+    flaechen.bebaute_flaeche && flaechen.weitere_flaechen;
 
   const handleNext = () => {
     if (!canNext) {
@@ -67,6 +74,8 @@ export default function StepHogarObjekt({ data, onChange, onNext, onPrev }) {
             {!data.baujahr && <li>Baujahr</li>}
             {!data.saniert && <li>Wurde das Objekt saniert?</li>}
             {data.saniert === 'ja' && !data.saniert_jahr && <li>Jahr der Sanierung</li>}
+            {!flaechen.bebaute_flaeche && <li>m² bebaute Fläche</li>}
+            {!flaechen.weitere_flaechen && <li>Weitere Nutzflächen</li>}
           </ul>
         </div>
       )}
@@ -200,6 +209,28 @@ export default function StepHogarObjekt({ data, onChange, onNext, onPrev }) {
       }}>
         <span>💡</span>
         <span>Mit der Kataster-Nummer kann Rita Baujahr und m² öffentlich einsehen. Angabe freiwillig.</span>
+      </div>
+
+      {/* Flächen */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 12,
+        margin: '8px 0 16px', color: '#6b7280',
+      }}>
+        <hr style={{ flex: 1, border: 'none', borderTop: '1.5px solid #e5e7eb' }} />
+        <span style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}>Flächen</span>
+        <hr style={{ flex: 1, border: 'none', borderTop: '1.5px solid #e5e7eb' }} />
+      </div>
+
+      <div className="form-grid">
+        <Field label="m² bebaute Fläche" required>
+          <input type="number" placeholder="z.B. 95" min="1" {...ff('bebaute_flaeche')} />
+        </Field>
+        <Field label="Weitere Nutzflächen" required full>
+          <textarea
+            placeholder="z.B. Balkon 12m², Garage 20m², Abstellraum 5m² – bitte alle Flächen und m² angeben"
+            {...ff('weitere_flaechen')}
+          />
+        </Field>
       </div>
 
       <div className="step-nav-buttons">
