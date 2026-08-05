@@ -1,8 +1,68 @@
 import { useState } from 'react';
 import Field from '../../components/Field';
 
-export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlaechen, onNext, onPrev }) {
+const T = {
+  de: {
+    title: 'Objekt-Details',
+    subtitle: 'Angaben zur zu versichernden Immobilie.',
+    errorHeader: '❌ Bitte füllen Sie alle Pflichtfelder aus:',
+    artLabel: 'Art der Immobilie',
+    haus: 'Haus', wohnung: 'Wohnung',
+    hausart: 'Hausart',
+    reihenhaus: 'Reihenhaus', alleinstehend: 'Alleinstehendes Haus',
+    lage: 'Lage der Wohnung',
+    erdgeschoss: 'Erdgeschoss', obergeschoss: 'Obergeschoss', mittelgeschoss: 'Mittelgeschoss',
+    baujahr: 'Baujahr',
+    saniert: 'Wurde das Objekt komplett saniert?',
+    ja: 'Ja', nein: 'Nein',
+    saniertJahr: 'Jahr der Sanierung',
+    kataster: 'Kataster-Nummer',
+    katasterHint: 'Mit der Kataster-Nummer kann Rita Baujahr und m² öffentlich einsehen. Angabe freiwillig.',
+    flaechen: 'Flächen',
+    bebaute: 'm² bebaute Fläche',
+    weitere: 'Weitere Nutzflächen',
+    weiterePlaceholder: 'z.B. Balkon 12m², Garage 20m², Abstellraum 5m² – bitte alle Flächen und m² angeben',
+    errors: {
+      art: 'Art der Immobilie', lage: 'Lage der Wohnung', hausart: 'Hausart',
+      baujahr: 'Baujahr', saniert: 'Wurde das Objekt saniert?', saniertJahr: 'Jahr der Sanierung',
+      bebaute: 'm² bebaute Fläche', weitere: 'Weitere Nutzflächen',
+    },
+    requiredHint: '⚠️ Bitte alle Pflichtfelder ausfüllen',
+    back: '← Zurück', next: 'Weiter →',
+  },
+  en: {
+    title: 'Property Details',
+    subtitle: 'Details about the property to be insured.',
+    errorHeader: '❌ Please fill in all required fields:',
+    artLabel: 'Type of property',
+    haus: 'House', wohnung: 'Apartment',
+    hausart: 'House type',
+    reihenhaus: 'Terraced house', alleinstehend: 'Detached house',
+    lage: 'Apartment location',
+    erdgeschoss: 'Ground floor', obergeschoss: 'Upper floor', mittelgeschoss: 'Middle floor',
+    baujahr: 'Year of construction',
+    saniert: 'Has the property been fully renovated?',
+    ja: 'Yes', nein: 'No',
+    saniertJahr: 'Year of renovation',
+    kataster: 'Cadastre number',
+    katasterHint: 'With the cadastre number Rita can look up year of construction and m² publicly. Optional.',
+    flaechen: 'Areas',
+    bebaute: 'Built-up area (m²)',
+    weitere: 'Additional usable areas',
+    weiterePlaceholder: 'e.g. Balcony 12m², Garage 20m², Storage room 5m² – please list all areas and m²',
+    errors: {
+      art: 'Type of property', lage: 'Apartment location', hausart: 'House type',
+      baujahr: 'Year of construction', saniert: 'Renovation (Yes/No)', saniertJahr: 'Year of renovation',
+      bebaute: 'Built-up area (m²)', weitere: 'Additional usable areas',
+    },
+    requiredHint: '⚠️ Please fill in all required fields',
+    back: '← Back', next: 'Next →',
+  },
+};
+
+export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlaechen, onNext, onPrev, lang = 'de' }) {
   const [attempted, setAttempted] = useState(false);
+  const t = T[lang] || T.de;
 
   const f = (field) => ({
     value: data[field] || '',
@@ -54,62 +114,55 @@ export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlae
 
   return (
     <div>
-      <h2 className="step-title">Objekt-Details</h2>
-      <p className="step-subtitle">Angaben zur zu versichernden Immobilie.</p>
+      <h2 className="step-title">{t.title}</h2>
+      <p className="step-subtitle">{t.subtitle}</p>
 
       {attempted && !canNext && (
         <div style={{
-          background: '#fef2f2',
-          border: '1px solid #fca5a5',
-          borderRadius: 8,
-          padding: '12px 16px',
-          marginBottom: 20,
-          fontSize: 14,
-          color: '#b91c1c'
+          background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8,
+          padding: '12px 16px', marginBottom: 20, fontSize: 14, color: '#b91c1c'
         }}>
-          ❌ Bitte füllen Sie alle Pflichtfelder aus:<br/>
+          {t.errorHeader}<br/>
           <ul style={{margin: '8px 0 0', paddingLeft: 20}}>
-            {!data.typ && <li>Art der Immobilie</li>}
-            {data.typ && missingSubType && <li>{data.typ === 'wohnung' ? 'Lage der Wohnung' : 'Hausart'}</li>}
-            {!data.baujahr && <li>Baujahr</li>}
-            {!data.saniert && <li>Wurde das Objekt saniert?</li>}
-            {data.saniert === 'ja' && !data.saniert_jahr && <li>Jahr der Sanierung</li>}
-            {!flaechen.bebaute_flaeche && <li>m² bebaute Fläche</li>}
-            {!flaechen.weitere_flaechen && <li>Weitere Nutzflächen</li>}
+            {!data.typ && <li>{t.errors.art}</li>}
+            {data.typ && missingSubType && <li>{data.typ === 'wohnung' ? t.errors.lage : t.errors.hausart}</li>}
+            {!data.baujahr && <li>{t.errors.baujahr}</li>}
+            {!data.saniert && <li>{t.errors.saniert}</li>}
+            {data.saniert === 'ja' && !data.saniert_jahr && <li>{t.errors.saniertJahr}</li>}
+            {!flaechen.bebaute_flaeche && <li>{t.errors.bebaute}</li>}
+            {!flaechen.weitere_flaechen && <li>{t.errors.weitere}</li>}
           </ul>
         </div>
       )}
 
-      {/* Type selection */}
       <div style={{ marginBottom: 20 }}>
         <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 10 }}>
-          Art der Immobilie <span style={{ color: '#cc0000' }}>*</span>
+          {t.artLabel} <span style={{ color: '#cc0000' }}>*</span>
         </label>
         <div style={{ display: 'flex', gap: 16 }}>
           <div style={cardStyle('haus')} onClick={() => selectTyp('haus')}>
             <div style={{ fontSize: 32, marginBottom: 6 }}>🏠</div>
-            <div style={{ fontSize: 16 }}>Haus</div>
+            <div style={{ fontSize: 16 }}>{t.haus}</div>
           </div>
           <div style={cardStyle('wohnung')} onClick={() => selectTyp('wohnung')}>
             <div style={{ fontSize: 32, marginBottom: 6 }}>🏢</div>
-            <div style={{ fontSize: 16 }}>Wohnung</div>
+            <div style={{ fontSize: 16 }}>{t.wohnung}</div>
           </div>
         </div>
       </div>
 
-      {/* Conditional sub-options */}
       {data.typ === 'haus' && (
         <div style={{ marginBottom: 20 }}>
           <label style={{
             fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 8,
             color: attempted && !data.haus_art ? '#b91c1c' : '#374151'
           }}>
-            Hausart <span style={{ color: '#cc0000' }}>*</span>
+            {t.hausart} <span style={{ color: '#cc0000' }}>*</span>
           </label>
           <div className="radio-group">
             {[
-              { value: 'reihenhaus', label: 'Reihenhaus' },
-              { value: 'alleinstehendes_haus', label: 'Alleinstehendes Haus' },
+              { value: 'reihenhaus', label: t.reihenhaus },
+              { value: 'alleinstehendes_haus', label: t.alleinstehend },
             ].map(opt => (
               <label key={opt.value} className="radio-option hogar">
                 <input
@@ -132,13 +185,13 @@ export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlae
             fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 8,
             color: attempted && !data.wohnung_lage ? '#b91c1c' : '#374151'
           }}>
-            Lage der Wohnung <span style={{ color: '#cc0000' }}>*</span>
+            {t.lage} <span style={{ color: '#cc0000' }}>*</span>
           </label>
           <div className="radio-group">
             {[
-              { value: 'erdgeschoss', label: 'Erdgeschoss' },
-              { value: 'obergeschoss', label: 'Obergeschoss' },
-              { value: 'mittelgeschoss', label: 'Mittelgeschoss' },
+              { value: 'erdgeschoss', label: t.erdgeschoss },
+              { value: 'obergeschoss', label: t.obergeschoss },
+              { value: 'mittelgeschoss', label: t.mittelgeschoss },
             ].map(opt => (
               <label key={opt.value} className="radio-option hogar">
                 <input
@@ -156,23 +209,22 @@ export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlae
       )}
 
       <div className="form-grid">
-        <Field label="Baujahr" required>
+        <Field label={t.baujahr} required>
           <input type="number" placeholder="z.B. 1985" min="1800" max="2026" {...f('baujahr')} />
         </Field>
       </div>
 
-      {/* Sanierung */}
       <div style={{ marginTop: 16, marginBottom: 16 }}>
         <label style={{
           fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 8,
           color: attempted && !data.saniert ? '#b91c1c' : '#374151'
         }}>
-          Wurde das Objekt komplett saniert? <span style={{ color: '#cc0000' }}>*</span>
+          {t.saniert} <span style={{ color: '#cc0000' }}>*</span>
         </label>
         <div className="radio-group">
           {[
-            { value: 'ja', label: 'Ja' },
-            { value: 'nein', label: 'Nein' },
+            { value: 'ja', label: t.ja },
+            { value: 'nein', label: t.nein },
           ].map(opt => (
             <label key={opt.value} className="radio-option hogar">
               <input
@@ -190,15 +242,14 @@ export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlae
 
       {data.saniert === 'ja' && (
         <div className="form-grid" style={{ marginBottom: 16 }}>
-          <Field label="Jahr der Sanierung" required>
+          <Field label={t.saniertJahr} required>
             <input type="number" placeholder="z.B. 2015" min="1800" max="2026" {...f('saniert_jahr')} />
           </Field>
         </div>
       )}
 
-      {/* Kataster */}
       <div style={{ marginBottom: 8 }}>
-        <Field label="Kataster-Nummer" optional full>
+        <Field label={t.kataster} optional full>
           <input type="text" placeholder="z.B. 1234567AB1234A0001ZZ" {...f('kataster')} />
         </Field>
       </div>
@@ -208,40 +259,32 @@ export default function StepHogarObjekt({ data, onChange, flaechen, onChangeFlae
         display: 'flex', gap: 8,
       }}>
         <span>💡</span>
-        <span>Mit der Kataster-Nummer kann Rita Baujahr und m² öffentlich einsehen. Angabe freiwillig.</span>
+        <span>{t.katasterHint}</span>
       </div>
 
       {/* Flächen */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 12,
-        margin: '8px 0 16px', color: '#6b7280',
-      }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '8px 0 16px', color: '#6b7280' }}>
         <hr style={{ flex: 1, border: 'none', borderTop: '1.5px solid #e5e7eb' }} />
-        <span style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}>Flächen</span>
+        <span style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}>{t.flaechen}</span>
         <hr style={{ flex: 1, border: 'none', borderTop: '1.5px solid #e5e7eb' }} />
       </div>
 
       <div className="form-grid">
-        <Field label="m² bebaute Fläche" required>
+        <Field label={t.bebaute} required>
           <input type="number" placeholder="z.B. 95" min="1" {...ff('bebaute_flaeche')} />
         </Field>
-        <Field label="Weitere Nutzflächen" required full>
-          <textarea
-            placeholder="z.B. Balkon 12m², Garage 20m², Abstellraum 5m² – bitte alle Flächen und m² angeben"
-            {...ff('weitere_flaechen')}
-          />
+        <Field label={t.weitere} required full>
+          <textarea placeholder={t.weiterePlaceholder} {...ff('weitere_flaechen')} />
         </Field>
       </div>
 
       <div className="step-nav-buttons">
-        <button className="btn btn-secondary" onClick={onPrev}>← Zurück</button>
+        <button className="btn btn-secondary" onClick={onPrev}>{t.back}</button>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
           {attempted && !canNext && (
-            <span style={{ fontSize: 12, color: '#b91c1c' }}>
-              ⚠️ Bitte alle Pflichtfelder ausfüllen
-            </span>
+            <span style={{ fontSize: 12, color: '#b91c1c' }}>{t.requiredHint}</span>
           )}
-          <button className="btn btn-hogar" onClick={handleNext}>Weiter →</button>
+          <button className="btn btn-hogar" onClick={handleNext}>{t.next}</button>
         </div>
       </div>
     </div>

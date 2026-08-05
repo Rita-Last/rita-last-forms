@@ -38,13 +38,22 @@ const INITIAL_DATA = {
   },
 };
 
-const STEPS = [
-  { id: 'personal', label: 'Persönliche Daten', icon: '👤' },
-  { id: 'objekt', label: 'Objekt', icon: '🏠' },
-  { id: 'nutzung', label: 'Nutzung', icon: '🏡' },
-  { id: 'werte', label: 'Werte', icon: '💰' },
-  { id: 'summary', label: 'Zusammenfassung', icon: '✅' },
-];
+const STEPS = {
+  de: [
+    { id: 'personal', label: 'Persönliche Daten', icon: '👤' },
+    { id: 'objekt', label: 'Objekt', icon: '🏠' },
+    { id: 'nutzung', label: 'Nutzung', icon: '🏡' },
+    { id: 'werte', label: 'Werte', icon: '💰' },
+    { id: 'summary', label: 'Zusammenfassung', icon: '✅' },
+  ],
+  en: [
+    { id: 'personal', label: 'Personal Data', icon: '👤' },
+    { id: 'objekt', label: 'Property', icon: '🏠' },
+    { id: 'nutzung', label: 'Usage', icon: '🏡' },
+    { id: 'werte', label: 'Values', icon: '💰' },
+    { id: 'summary', label: 'Summary', icon: '✅' },
+  ],
+};
 
 function stepStatus(formData, idx) {
   const { personal, adresse, objekt, nutzung, flaechen, werte } = formData;
@@ -83,7 +92,7 @@ function stepStatus(formData, idx) {
   return 'empty';
 }
 
-export default function HogarForm() {
+export default function HogarForm({ lang = 'de' }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState(INITIAL_DATA);
   const [submitted, setSubmitted] = useState(false);
@@ -155,7 +164,8 @@ export default function HogarForm() {
     }
   };
 
-  const statuses = STEPS.map((_, i) => stepStatus(formData, i));
+  const steps = STEPS[lang] || STEPS.de;
+  const statuses = steps.map((_, i) => stepStatus(formData, i));
 
   const statusIcon = (status) => {
     if (status === 'done') return '✓';
@@ -175,8 +185,8 @@ export default function HogarForm() {
       <div className="app-container">
         <div className="success-card">
           <div className="success-icon">✅</div>
-          <h2 style={{ color: '#9B2035' }}>Vielen Dank!</h2>
-          <p>Rita meldet sich innerhalb von 24 Stunden bei Ihnen.</p>
+          <h2 style={{ color: '#9B2035' }}>{lang === 'en' ? 'Thank you!' : 'Vielen Dank!'}</h2>
+          <p>{lang === 'en' ? 'Rita will get back to you within 24 hours.' : 'Rita meldet sich innerhalb von 24 Stunden bei Ihnen.'}</p>
         </div>
       </div>
     );
@@ -202,6 +212,7 @@ export default function HogarForm() {
       onChange={patch => updateSection('personal', patch)}
       onChangeAdresse={patch => updateSection('adresse', patch)}
       onNext={next}
+      lang={lang}
     />,
     <StepHogarObjekt
       key="objekt"
@@ -211,6 +222,7 @@ export default function HogarForm() {
       onChangeFlaechen={patch => updateSection('flaechen', patch)}
       onNext={next}
       onPrev={prev}
+      lang={lang}
     />,
     <StepHogarNutzung
       key="nutzung"
@@ -218,6 +230,7 @@ export default function HogarForm() {
       onChange={patch => updateSection('nutzung', patch)}
       onNext={next}
       onPrev={prev}
+      lang={lang}
     />,
     <StepHogarWerte
       key="werte"
@@ -225,6 +238,7 @@ export default function HogarForm() {
       onChange={patch => updateSection('werte', patch)}
       onNext={next}
       onPrev={prev}
+      lang={lang}
     />,
     <StepHogarSummary
       key="summary"
@@ -235,6 +249,7 @@ export default function HogarForm() {
       submitting={submitting}
       datenschutz={datenschutz}
       onDatenschutz={setDatenschutz}
+      lang={lang}
     />,
   ];
 
@@ -245,7 +260,7 @@ export default function HogarForm() {
       <header className="app-header">
         <img src="/logo.png" alt="Rita Last Insurance" style={{ height: 52 }} />
         <span style={{ fontSize: 13, color: '#5a5a72', fontWeight: 500 }}>
-          Hausversicherung – Angebotsanfrage
+          {lang === 'en' ? 'Home Insurance – Quote Request' : 'Hausversicherung – Angebotsanfrage'}
         </span>
       </header>
 
@@ -255,7 +270,7 @@ export default function HogarForm() {
           padding: '10px 16px', marginBottom: 16, fontSize: 13,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
         }}>
-          <span style={{ color: '#9B2035' }}>💾 Gespeicherter Entwurf geladen</span>
+          <span style={{ color: '#9B2035' }}>💾 {lang === 'en' ? 'Draft loaded' : 'Gespeicherter Entwurf geladen'}</span>
           <button
             onClick={clearDraft}
             style={{
@@ -263,13 +278,13 @@ export default function HogarForm() {
               padding: '4px 10px', cursor: 'pointer', fontSize: 12, color: '#9B2035',
             }}
           >
-            Entwurf löschen
+            {lang === 'en' ? 'Delete draft' : 'Entwurf löschen'}
           </button>
         </div>
       )}
 
       <nav className="step-nav">
-        {STEPS.map((step, i) => {
+        {steps.map((step, i) => {
           const status = statuses[i];
           const isActive = i === currentStep;
           const icon = statusIcon(status);

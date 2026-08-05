@@ -1,7 +1,57 @@
 import { useState } from 'react';
 
-export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
+const T = {
+  de: {
+    title: 'Nutzung',
+    subtitle: 'Wie wird die Immobilie genutzt?',
+    errorHeader: '❌ Bitte füllen Sie alle Pflichtfelder aus:',
+    rolleLabel: 'Sind Sie Eigentümer/in oder Mieter/in?',
+    eigentuemer: 'Eigentümer/in', mieter: 'Mieter/in',
+    artLabel: 'Art der Nutzung',
+    eigennutzung: 'Eigentum mit Eigennutzung',
+    vermietet: 'Eigentum mit Vermietung',
+    wohnsitz: 'Wohnsitzart',
+    hauptwohnsitz: 'Hauptwohnsitz', nebenwohnsitz: 'Nebenwohnsitz',
+    vermietungsart: 'Vermietungsart',
+    langzeit: 'Langzeitvermietung', saisonal: 'Saisonale Vermietung', touristisch: 'Touristische Vermietung',
+    errors: {
+      rolle: 'Eigentümer/in oder Mieter/in',
+      art: 'Art der Eigentumsnutzung',
+      eigennutzungTyp: 'Hauptwohnsitz oder Nebenwohnsitz',
+      vermietungTyp: 'Vermietungsart',
+      mieterTyp: 'Hauptwohnsitz oder Nebenwohnsitz',
+    },
+    requiredHint: '⚠️ Bitte alle Pflichtfelder ausfüllen',
+    back: '← Zurück', next: 'Weiter →',
+  },
+  en: {
+    title: 'Usage',
+    subtitle: 'How is the property used?',
+    errorHeader: '❌ Please fill in all required fields:',
+    rolleLabel: 'Are you the owner or tenant?',
+    eigentuemer: 'Owner', mieter: 'Tenant',
+    artLabel: 'Type of use',
+    eigennutzung: 'Owner-occupied',
+    vermietet: 'Rented out',
+    wohnsitz: 'Residence type',
+    hauptwohnsitz: 'Primary residence', nebenwohnsitz: 'Secondary residence',
+    vermietungsart: 'Rental type',
+    langzeit: 'Long-term rental', saisonal: 'Seasonal rental', touristisch: 'Tourist rental',
+    errors: {
+      rolle: 'Owner or Tenant',
+      art: 'Type of ownership use',
+      eigennutzungTyp: 'Primary or Secondary residence',
+      vermietungTyp: 'Rental type',
+      mieterTyp: 'Primary or Secondary residence',
+    },
+    requiredHint: '⚠️ Please fill in all required fields',
+    back: '← Back', next: 'Next →',
+  },
+};
+
+export default function StepHogarNutzung({ data, onChange, onNext, onPrev, lang = 'de' }) {
   const [attempted, setAttempted] = useState(false);
+  const t = T[lang] || T.de;
 
   const selectRolle = (rolle) => {
     onChange({ rolle, art: '', eigennutzung_typ: '', vermietung_typ: '', mieter_typ: '' });
@@ -54,26 +104,21 @@ export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
 
   return (
     <div>
-      <h2 className="step-title">Nutzung</h2>
-      <p className="step-subtitle">Wie wird die Immobilie genutzt?</p>
+      <h2 className="step-title">{t.title}</h2>
+      <p className="step-subtitle">{t.subtitle}</p>
 
       {attempted && !canNext && (
         <div style={{
-          background: '#fef2f2',
-          border: '1px solid #fca5a5',
-          borderRadius: 8,
-          padding: '12px 16px',
-          marginBottom: 20,
-          fontSize: 14,
-          color: '#b91c1c'
+          background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8,
+          padding: '12px 16px', marginBottom: 20, fontSize: 14, color: '#b91c1c'
         }}>
-          ❌ Bitte füllen Sie alle Pflichtfelder aus:<br/>
+          {t.errorHeader}<br/>
           <ul style={{margin: '8px 0 0', paddingLeft: 20}}>
-            {!data.rolle && <li>Eigentümer/in oder Mieter/in</li>}
-            {data.rolle === 'eigentuemer' && !data.art && <li>Art der Eigentumsnutzung</li>}
-            {data.rolle === 'eigentuemer' && data.art === 'eigennutzung' && !data.eigennutzung_typ && <li>Hauptwohnsitz oder Nebenwohnsitz</li>}
-            {data.rolle === 'eigentuemer' && data.art === 'vermietet' && !data.vermietung_typ && <li>Vermietungsart</li>}
-            {data.rolle === 'mieter' && !data.mieter_typ && <li>Hauptwohnsitz oder Nebenwohnsitz</li>}
+            {!data.rolle && <li>{t.errors.rolle}</li>}
+            {data.rolle === 'eigentuemer' && !data.art && <li>{t.errors.art}</li>}
+            {data.rolle === 'eigentuemer' && data.art === 'eigennutzung' && !data.eigennutzung_typ && <li>{t.errors.eigennutzungTyp}</li>}
+            {data.rolle === 'eigentuemer' && data.art === 'vermietet' && !data.vermietung_typ && <li>{t.errors.vermietungTyp}</li>}
+            {data.rolle === 'mieter' && !data.mieter_typ && <li>{t.errors.mieterTyp}</li>}
           </ul>
         </div>
       )}
@@ -81,16 +126,16 @@ export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
       {/* Eigentümer/in oder Mieter/in */}
       <div style={{ marginBottom: 20 }}>
         <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 10 }}>
-          Sind Sie Eigentümer/in oder Mieter/in? <span style={{ color: '#cc0000' }}>*</span>
+          {t.rolleLabel} <span style={{ color: '#cc0000' }}>*</span>
         </label>
         <div style={{ display: 'flex', gap: 16 }}>
           <div style={rolleCardStyle('eigentuemer')} onClick={() => selectRolle('eigentuemer')}>
             <div style={{ fontSize: 28, marginBottom: 6 }}>🏠</div>
-            <div style={{ fontSize: 15 }}>Eigentümer/in</div>
+            <div style={{ fontSize: 15 }}>{t.eigentuemer}</div>
           </div>
           <div style={rolleCardStyle('mieter')} onClick={() => selectRolle('mieter')}>
             <div style={{ fontSize: 28, marginBottom: 6 }}>🔑</div>
-            <div style={{ fontSize: 15 }}>Mieter/in</div>
+            <div style={{ fontSize: 15 }}>{t.mieter}</div>
           </div>
         </div>
       </div>
@@ -99,34 +144,34 @@ export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
       {data.rolle === 'eigentuemer' && (
         <div style={{ marginBottom: 20 }}>
           <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 10 }}>
-            Art der Nutzung <span style={{ color: '#cc0000' }}>*</span>
+            {t.artLabel} <span style={{ color: '#cc0000' }}>*</span>
           </label>
           <div style={{ display: 'flex', gap: 16 }}>
             <div style={artCardStyle('eigennutzung')} onClick={() => selectArt('eigennutzung')}>
               <div style={{ fontSize: 24, marginBottom: 4 }}>🏡</div>
-              <div style={{ fontSize: 14 }}>Eigentum mit Eigennutzung</div>
+              <div style={{ fontSize: 14 }}>{t.eigennutzung}</div>
             </div>
             <div style={artCardStyle('vermietet')} onClick={() => selectArt('vermietet')}>
               <div style={{ fontSize: 24, marginBottom: 4 }}>📋</div>
-              <div style={{ fontSize: 14 }}>Eigentum mit Vermietung</div>
+              <div style={{ fontSize: 14 }}>{t.vermietet}</div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Eigentümer + Eigennutzung: Hauptwohnsitz / Nebenwohnsitz */}
+      {/* Eigentümer + Eigennutzung */}
       {data.rolle === 'eigentuemer' && data.art === 'eigennutzung' && (
         <div style={{ marginBottom: 20 }}>
           <label style={{
             fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 8,
             color: attempted && !data.eigennutzung_typ ? '#b91c1c' : '#374151'
           }}>
-            Wohnsitzart <span style={{ color: '#cc0000' }}>*</span>
+            {t.wohnsitz} <span style={{ color: '#cc0000' }}>*</span>
           </label>
           <div className="radio-group">
             {[
-              { value: 'hauptwohnsitz', label: 'Hauptwohnsitz' },
-              { value: 'nebenwohnsitz', label: 'Nebenwohnsitz' },
+              { value: 'hauptwohnsitz', label: t.hauptwohnsitz },
+              { value: 'nebenwohnsitz', label: t.nebenwohnsitz },
             ].map(opt => (
               <label key={opt.value} className="radio-option hogar">
                 <input
@@ -143,20 +188,20 @@ export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
         </div>
       )}
 
-      {/* Eigentümer + Vermietung: Vermietungsart */}
+      {/* Eigentümer + Vermietung */}
       {data.rolle === 'eigentuemer' && data.art === 'vermietet' && (
         <div style={{ marginBottom: 20 }}>
           <label style={{
             fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 8,
             color: attempted && !data.vermietung_typ ? '#b91c1c' : '#374151'
           }}>
-            Vermietungsart <span style={{ color: '#cc0000' }}>*</span>
+            {t.vermietungsart} <span style={{ color: '#cc0000' }}>*</span>
           </label>
           <div className="radio-group">
             {[
-              { value: 'langzeit', label: 'Langzeitvermietung' },
-              { value: 'saisonal', label: 'Saisonale Vermietung' },
-              { value: 'touristisch', label: 'Touristische Vermietung' },
+              { value: 'langzeit', label: t.langzeit },
+              { value: 'saisonal', label: t.saisonal },
+              { value: 'touristisch', label: t.touristisch },
             ].map(opt => (
               <label key={opt.value} className="radio-option hogar">
                 <input
@@ -173,19 +218,19 @@ export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
         </div>
       )}
 
-      {/* Mieter/in: Hauptwohnsitz / Nebenwohnsitz */}
+      {/* Mieter/in */}
       {data.rolle === 'mieter' && (
         <div style={{ marginBottom: 20 }}>
           <label style={{
             fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 8,
             color: attempted && !data.mieter_typ ? '#b91c1c' : '#374151'
           }}>
-            Wohnsitzart <span style={{ color: '#cc0000' }}>*</span>
+            {t.wohnsitz} <span style={{ color: '#cc0000' }}>*</span>
           </label>
           <div className="radio-group">
             {[
-              { value: 'hauptwohnsitz', label: 'Hauptwohnsitz' },
-              { value: 'nebenwohnsitz', label: 'Nebenwohnsitz' },
+              { value: 'hauptwohnsitz', label: t.hauptwohnsitz },
+              { value: 'nebenwohnsitz', label: t.nebenwohnsitz },
             ].map(opt => (
               <label key={opt.value} className="radio-option hogar">
                 <input
@@ -203,14 +248,12 @@ export default function StepHogarNutzung({ data, onChange, onNext, onPrev }) {
       )}
 
       <div className="step-nav-buttons">
-        <button className="btn btn-secondary" onClick={onPrev}>← Zurück</button>
+        <button className="btn btn-secondary" onClick={onPrev}>{t.back}</button>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
           {attempted && !canNext && (
-            <span style={{ fontSize: 12, color: '#b91c1c' }}>
-              ⚠️ Bitte alle Pflichtfelder ausfüllen
-            </span>
+            <span style={{ fontSize: 12, color: '#b91c1c' }}>{t.requiredHint}</span>
           )}
-          <button className="btn btn-hogar" onClick={handleNext}>Weiter →</button>
+          <button className="btn btn-hogar" onClick={handleNext}>{t.next}</button>
         </div>
       </div>
     </div>
