@@ -137,7 +137,7 @@ export default function HogarForm({ lang = 'de' }) {
     }));
   };
 
-  const next = () => setCurrentStep(s => Math.min(s + 1, STEPS.length - 1));
+  const next = () => setCurrentStep(s => Math.min(s + 1, steps.length - 1));
   const prev = () => setCurrentStep(s => Math.max(s - 1, 0));
 
   const handleSubmit = async () => {
