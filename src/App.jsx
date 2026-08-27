@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import FormApp from './FormApp';
 import HogarForm from './HogarForm';
+import AutoAngebotForm from './AutoAngebotForm';
 
 export default function App() {
   return (
@@ -11,6 +12,8 @@ export default function App() {
         <Route path="/CAR-Accident/en" element={<FormApp lang="en" />} />
         <Route path="/Haus/de" element={<HogarForm lang="de" />} />
         <Route path="/Home/en" element={<HogarForm lang="en" />} />
+        <Route path="/Auto/de" element={<AutoAngebotForm lang="de" />} />
+        <Route path="/Car/en" element={<AutoAngebotForm lang="en" />} />
         {/* Legacy redirects */}
         <Route path="/de" element={<Navigate to="/KFZ-Schaden/de" replace />} />
         <Route path="/en" element={<Navigate to="/CAR-Accident/en" replace />} />
