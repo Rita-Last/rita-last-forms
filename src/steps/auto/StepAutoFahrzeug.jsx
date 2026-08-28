@@ -9,8 +9,9 @@ const T = {
     marke: 'Marke', modell: 'Modell',
     version: 'Version', versionPlaceholder: 'z.B. Confortline, Sport, Premium',
     ps: 'PS', psPlaceholder: 'z.B. 120',
-    kraftstoff: 'Kraftstoff', diesel: 'Diesel', benzin: 'Benzin',
+    kraftstoff: 'Kraftstoff', diesel: 'Diesel', benzin: 'Benzin', elektrisch: 'Elektrisch', hybrid: 'Hybrid',
     tueren: 'Anzahl Türen', drei: '3 Türer', fuenf: '5 Türer',
+    ccm: 'Hubraum (ccm)', ccmPlaceholder: 'z.B. 1600',
     baujahr: 'Baujahr', baujahrPlaceholder: 'z.B. 2019',
     kennzeichen: 'Kennzeichen', kennzeichenPlaceholder: 'z.B. PM-1234-AB',
     extras: 'Extras / Sonderausstattung',
@@ -24,7 +25,7 @@ const T = {
     ja: 'Ja', nein: 'Nein',
     errors: {
       marke: 'Marke', modell: 'Modell', version: 'Version', ps: 'PS',
-      kraftstoff: 'Kraftstoff (Diesel/Benzin)', tueren: 'Anzahl Türen',
+      kraftstoff: 'Kraftstoff', tueren: 'Anzahl Türen',
       baujahr: 'Baujahr', kennzeichen: 'Kennzeichen',
       extras: 'Extras (Ja/Nein)', privat: 'Private Nutzung (Ja/Nein)',
     },
@@ -38,8 +39,9 @@ const T = {
     marke: 'Make', modell: 'Model',
     version: 'Version', versionPlaceholder: 'e.g. Comfortline, Sport, Premium',
     ps: 'Horsepower (HP)', psPlaceholder: 'e.g. 120',
-    kraftstoff: 'Fuel type', diesel: 'Diesel', benzin: 'Petrol',
+    kraftstoff: 'Fuel type', diesel: 'Diesel', benzin: 'Petrol', elektrisch: 'Electric', hybrid: 'Hybrid',
     tueren: 'Number of doors', drei: '3 doors', fuenf: '5 doors',
+    ccm: 'Engine displacement (cc)', ccmPlaceholder: 'e.g. 1600',
     baujahr: 'Year of manufacture', baujahrPlaceholder: 'e.g. 2019',
     kennzeichen: 'Number plate', kennzeichenPlaceholder: 'e.g. PM-1234-AB',
     extras: 'Extras / Special equipment',
@@ -142,6 +144,13 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
         <Field label={t.ps} required>
           <input type="text" placeholder={t.psPlaceholder} {...f('ps')} />
         </Field>
+        <Field label={t.ccm} optional>
+          <input type="text" placeholder={t.ccmPlaceholder}
+            value={data.ccm || ''}
+            onChange={e => onChange({ ccm: e.target.value })}
+            className={data.ccm ? 'filled' : ''}
+          />
+        </Field>
         <Field label={t.baujahr} required>
           <input type="text" placeholder={t.baujahrPlaceholder} {...f('baujahr')} />
         </Field>
@@ -158,9 +167,11 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
         }}>
           {t.kraftstoff} <span style={{ color: '#cc0000' }}>*</span>
         </label>
-        <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div style={radioStyle('kraftstoff', 'diesel')} onClick={() => onChange({ kraftstoff: 'diesel' })}>⛽ {t.diesel}</div>
           <div style={radioStyle('kraftstoff', 'benzin')} onClick={() => onChange({ kraftstoff: 'benzin' })}>⛽ {t.benzin}</div>
+          <div style={radioStyle('kraftstoff', 'elektrisch')} onClick={() => onChange({ kraftstoff: 'elektrisch' })}>⚡ {t.elektrisch}</div>
+          <div style={radioStyle('kraftstoff', 'hybrid')} onClick={() => onChange({ kraftstoff: 'hybrid' })}>🔋 {t.hybrid}</div>
         </div>
       </div>
 

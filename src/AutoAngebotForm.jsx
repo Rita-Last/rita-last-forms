@@ -15,7 +15,7 @@ const INITIAL_DATA = {
     fahrer_unter_25: '', fahrer_unter_25_info: '',
   },
   fahrzeug: {
-    marke: '', modell: '', version: '', ps: '',
+    marke: '', modell: '', version: '', ps: '', ccm: '',
     kraftstoff: '', tueren: '', baujahr: '', kennzeichen: '',
     extras: '', extras_info: '',
     privat_nutzung: '', privat_nutzung_info: '',

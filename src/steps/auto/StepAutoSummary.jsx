@@ -12,12 +12,14 @@ const T = {
     fahrer25Info: 'Details (Fahrer u. 25)',
     marke: 'Marke', modell: 'Modell', version: 'Version', ps: 'PS',
     kraftstoff: 'Kraftstoff', tueren: 'Türen', baujahr: 'Baujahr',
-    kennzeichen: 'Kennzeichen', extras: 'Extras/Sonderausstattung',
+    kennzeichen: 'Kennzeichen', ccm: 'Hubraum (ccm)',
+    extras: 'Extras/Sonderausstattung',
     extrasInfo: 'Details (Extras)', privat: 'Nur private Nutzung',
     privatInfo: 'Details (Nutzung)',
-    diesel: 'Diesel', benzin: 'Benzin',
+    diesel: 'Diesel', benzin: 'Benzin', elektrisch: 'Elektrisch', hybrid: 'Hybrid',
     drei: '3 Türer', fuenf: '5 Türer',
     ja: 'Ja', nein: 'Nein',
+    ccm: 'Hubraum (ccm)',
     dsgvo: 'Ich stimme der Verarbeitung meiner Daten zur Bearbeitung dieser Anfrage zu.',
     dsgvoRequired: '⚠️ Bitte der Datenschutzerklärung zustimmen.',
     submit: 'Anfrage absenden',
@@ -36,12 +38,14 @@ const T = {
     fahrer25Info: 'Details (driver u. 25)',
     marke: 'Make', modell: 'Model', version: 'Version', ps: 'HP',
     kraftstoff: 'Fuel', tueren: 'Doors', baujahr: 'Year',
-    kennzeichen: 'Number plate', extras: 'Extras / Special equipment',
+    kennzeichen: 'Number plate', ccm: 'Engine displacement (cc)',
+    extras: 'Extras / Special equipment',
     extrasInfo: 'Details (extras)', privat: 'Private use only',
     privatInfo: 'Details (usage)',
-    diesel: 'Diesel', benzin: 'Petrol',
+    diesel: 'Diesel', benzin: 'Petrol', elektrisch: 'Electric', hybrid: 'Hybrid',
     drei: '3 doors', fuenf: '5 doors',
     ja: 'Yes', nein: 'No',
+    ccm: 'Engine displacement (cc)',
     dsgvo: 'I agree to the processing of my data to handle this enquiry.',
     dsgvoRequired: '⚠️ Please accept the data protection declaration.',
     submit: 'Submit request',
@@ -80,7 +84,8 @@ export default function StepAutoSummary({
   const t = T[lang] || T.de;
   const { personal, fahrzeug } = formData;
 
-  const kraftstoffLabel = fahrzeug?.kraftstoff === 'diesel' ? t.diesel : fahrzeug?.kraftstoff === 'benzin' ? t.benzin : fahrzeug?.kraftstoff || '';
+  const kraftstoffMap = { diesel: t.diesel, benzin: t.benzin, elektrisch: t.elektrisch, hybrid: t.hybrid };
+  const kraftstoffLabel = kraftstoffMap[fahrzeug?.kraftstoff] || fahrzeug?.kraftstoff || '';
   const tuerenLabel = fahrzeug?.tueren === '3' ? t.drei : fahrzeug?.tueren === '5' ? t.fuenf : fahrzeug?.tueren || '';
   const jaNein = (val) => val === 'ja' ? t.ja : val === 'nein' ? t.nein : val || '';
 
@@ -118,6 +123,7 @@ export default function StepAutoSummary({
         <Row label={t.modell} value={fahrzeug?.modell} />
         <Row label={t.version} value={fahrzeug?.version} />
         <Row label={t.ps} value={fahrzeug?.ps} />
+        <Row label={t.ccm} value={fahrzeug?.ccm} />
         <Row label={t.kraftstoff} value={kraftstoffLabel} />
         <Row label={t.tueren} value={tuerenLabel} />
         <Row label={t.baujahr} value={fahrzeug?.baujahr} />
@@ -133,14 +139,14 @@ export default function StepAutoSummary({
         background: '#f9fafb', border: `1px solid ${attempted && !datenschutz ? '#ef4444' : '#e5e7eb'}`,
         borderRadius: 8, padding: '14px 16px', marginBottom: 20,
       }}>
-        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', fontSize: 13 }}>
+        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', fontSize: 13, width: '100%' }}>
           <input
             type="checkbox"
             checked={datenschutz}
             onChange={e => onDatenschutz(e.target.checked)}
-            style={{ marginTop: 2, accentColor: '#9B2035' }}
+            style={{ marginTop: 2, accentColor: '#9B2035', flexShrink: 0 }}
           />
-          <span style={{ color: attempted && !datenschutz ? '#b91c1c' : '#374151' }}>{t.dsgvo}</span>
+          <span style={{ color: attempted && !datenschutz ? '#b91c1c' : '#374151', flex: 1 }}>{t.dsgvo}</span>
         </label>
         {attempted && !datenschutz && (
           <div style={{ color: '#b91c1c', fontSize: 12, marginTop: 6 }}>{t.dsgvoRequired}</div>
