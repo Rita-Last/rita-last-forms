@@ -415,7 +415,7 @@ input.field-error, select.field-error, textarea.field-error {
 
 /* ─── LABEL ──────────────────────────────────────────────── */
 label {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #1a1a2e;
 }

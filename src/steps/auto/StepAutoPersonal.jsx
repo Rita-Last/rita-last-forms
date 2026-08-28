@@ -105,11 +105,12 @@ export default function StepAutoPersonal({ data, onChange, onNext, lang = 'de' }
   const radioStyle = (field, val) => ({
     border: `2px solid ${data[field] === val ? '#cc0000' : attempted && !data[field] ? '#ef4444' : '#d1d5db'}`,
     borderRadius: 10,
-    padding: '10px 18px',
+    padding: '12px 18px',
     cursor: 'pointer',
     background: data[field] === val ? '#fff5f5' : attempted && !data[field] ? '#fef2f2' : 'white',
     color: data[field] === val ? '#cc0000' : '#374151',
-    fontWeight: data[field] === val ? 700 : 400,
+    fontWeight: data[field] === val ? 700 : 500,
+    fontSize: 15,
     transition: 'all 0.2s',
   });
 
@@ -169,7 +170,7 @@ export default function StepAutoPersonal({ data, onChange, onNext, lang = 'de' }
       {/* Unfallfrei */}
       <div style={{ marginTop: 20, marginBottom: 16 }}>
         <label style={{
-          fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 10,
+          fontSize: 15, fontWeight: 600, display: 'block', marginBottom: 10,
           color: attempted && !data.unfallfrei ? '#b91c1c' : '#374151'
         }}>
           {t.unfallfrei} <span style={{ color: '#cc0000' }}>*</span>
@@ -190,7 +191,7 @@ export default function StepAutoPersonal({ data, onChange, onNext, lang = 'de' }
       {/* Fahrer unter 25 */}
       <div style={{ marginBottom: 24 }}>
         <label style={{
-          fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 10,
+          fontSize: 15, fontWeight: 600, display: 'block', marginBottom: 10,
           color: attempted && !data.fahrer_unter_25 ? '#b91c1c' : '#374151'
         }}>
           {t.fahrer25} <span style={{ color: '#cc0000' }}>*</span>
