@@ -111,7 +111,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
     background: data[field] === val ? '#fff5f5' : attempted && !data[field] ? '#fef2f2' : 'white',
     color: data[field] === val ? '#cc0000' : '#374151',
     fontWeight: data[field] === val ? 700 : 500,
-    fontSize: 15,
+    fontSize: 14,
     transition: 'all 0.2s',
   });
 
@@ -163,7 +163,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Kraftstoff */}
       <div style={{ marginTop: 16, marginBottom: 16 }}>
         <label style={{
-          fontSize: 15, fontWeight: 600, display: 'block', marginBottom: 10,
+          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 10,
           color: attempted && !data.kraftstoff ? '#b91c1c' : '#374151'
         }}>
           {t.kraftstoff} <span style={{ color: '#cc0000' }}>*</span>
@@ -179,7 +179,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Türen */}
       <div style={{ marginBottom: 16 }}>
         <label style={{
-          fontSize: 15, fontWeight: 600, display: 'block', marginBottom: 10,
+          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 10,
           color: attempted && !data.tueren ? '#b91c1c' : '#374151'
         }}>
           {t.tueren} <span style={{ color: '#cc0000' }}>*</span>
@@ -193,7 +193,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Extras */}
       <div style={{ marginBottom: 16 }}>
         <label style={{
-          fontSize: 15, fontWeight: 600, display: 'block', marginBottom: 6,
+          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 6,
           color: attempted && !data.extras ? '#b91c1c' : '#374151'
         }}>
           {t.extras} <span style={{ color: '#cc0000' }}>*</span>
@@ -223,7 +223,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Private Nutzung */}
       <div style={{ marginBottom: 24 }}>
         <label style={{
-          fontSize: 15, fontWeight: 600, display: 'block', marginBottom: 6,
+          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 6,
           color: attempted && !data.privat_nutzung ? '#b91c1c' : '#374151'
         }}>
           {t.privat} <span style={{ color: '#cc0000' }}>*</span>
