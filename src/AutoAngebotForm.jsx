@@ -8,7 +8,7 @@ const STORAGE_KEY = 'rita-auto-form';
 
 const INITIAL_DATA = {
   personal: {
-    vorname: '', nachname: '', nie: '', geburtsdatum: '', email: '',
+    vorname: '', nachname: '', nie: '', geburtsdatum: '', email: '', telefon: '',
     strasse: '', plz: '', ort: '', nationalitaet: '',
     fuehrerschein_datum: '',
     unfallfrei: '', unfallfrei_info: '',

@@ -7,7 +7,7 @@ const T = {
     subtitle: 'Policen-Nehmer, Eigentümer und Hauptfahrer sollten dieselbe Person sein. Bitte vollständigen Namen angeben, und mindestens Wohnort mit Postleitzahl.',
     errorHeader: '❌ Bitte füllen Sie alle Pflichtfelder aus:',
     vorname: 'Vorname', nachname: 'Nachname', nie: 'NIE-Nummer',
-    geburtsdatum: 'Geburtsdatum', email: 'E-Mail',
+    geburtsdatum: 'Geburtsdatum', email: 'E-Mail', telefon: 'Telefon / Mobil',
     strasse: 'Straße & Hausnummer', plz: 'Postleitzahl', ort: 'Wohnort',
     nationalitaet: 'Nationalität',
     fuehrerschein: 'Führerscheindatum (Erstausstellungsdatum)',
@@ -33,7 +33,7 @@ const T = {
     subtitle: 'The policyholder, owner and main driver should be the same person. Please enter full name, and at least city and postcode.',
     errorHeader: '❌ Please fill in all required fields:',
     vorname: 'First name', nachname: 'Last name', nie: 'NIE number',
-    geburtsdatum: 'Date of birth', email: 'E-Mail',
+    geburtsdatum: 'Date of birth', email: 'E-Mail', telefon: 'Phone / Mobile',
     strasse: 'Street & house number', plz: 'Postcode', ort: 'City',
     nationalitaet: 'Nationality',
     fuehrerschein: 'Driver\'s licence date (date first issued)',
@@ -145,6 +145,9 @@ export default function StepAutoPersonal({ data, onChange, onNext, lang = 'de' }
         </Field>
         <Field label={t.email} required full>
           <input type="email" {...f('email')} />
+        </Field>
+        <Field label={t.telefon} optional>
+          <input type="tel" placeholder="+34 6xx xxx xxx" {...fOpt('telefon')} />
         </Field>
         <Field label={t.strasse} optional full>
           <input type="text" {...fOpt('strasse')} />

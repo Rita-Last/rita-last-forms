@@ -6,7 +6,7 @@ const T = {
     subtitle: 'Bitte prüfen Sie Ihre Angaben vor dem Absenden.',
     personal: 'Persönliche Daten', fahrzeug: 'Fahrzeug-Daten',
     name: 'Name', nie: 'NIE-Nummer', geburtsdatum: 'Geburtsdatum',
-    email: 'E-Mail', adresse: 'Adresse', nationalitaet: 'Nationalität',
+    email: 'E-Mail', telefon: 'Telefon', adresse: 'Adresse', nationalitaet: 'Nationalität',
     fuehrerschein: 'Führerscheindatum', unfallfrei: 'Letzte 5 Jahre unfallfrei',
     unfallfreiInfo: 'Details (Unfallfrei)', fahrer25: 'Fahrer unter 25',
     fahrer25Info: 'Details (Fahrer u. 25)',
@@ -32,7 +32,7 @@ const T = {
     subtitle: 'Please review your information before submitting.',
     personal: 'Personal Data', fahrzeug: 'Vehicle Data',
     name: 'Name', nie: 'NIE number', geburtsdatum: 'Date of birth',
-    email: 'E-Mail', adresse: 'Address', nationalitaet: 'Nationality',
+    email: 'E-Mail', telefon: 'Phone', adresse: 'Address', nationalitaet: 'Nationality',
     fuehrerschein: 'Licence date', unfallfrei: 'Last 5 years accident-free',
     unfallfreiInfo: 'Details (accident-free)', fahrer25: 'Driver under 25',
     fahrer25Info: 'Details (driver u. 25)',
@@ -110,6 +110,7 @@ export default function StepAutoSummary({
         <Row label={t.geburtsdatum} value={personal?.geburtsdatum} />
         <Row label={t.nationalitaet} value={personal?.nationalitaet} />
         <Row label={t.email} value={personal?.email} />
+        {personal?.telefon && <Row label={t.telefon} value={personal.telefon} />}
         <Row label={t.adresse} value={adresse} />
         <Row label={t.fuehrerschein} value={personal?.fuehrerschein_datum} />
         <Row label={t.unfallfrei} value={jaNein(personal?.unfallfrei)} />
@@ -137,17 +138,24 @@ export default function StepAutoSummary({
       {/* DSGVO */}
       <div style={{
         background: '#f9fafb', border: `1px solid ${attempted && !datenschutz ? '#ef4444' : '#e5e7eb'}`,
-        borderRadius: 8, padding: '14px 16px', marginBottom: 20,
+        borderRadius: 8, padding: '14px 16px', marginBottom: 20, boxSizing: 'border-box',
       }}>
-        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', fontSize: 13, width: '100%' }}>
-          <input
-            type="checkbox"
-            checked={datenschutz}
-            onChange={e => onDatenschutz(e.target.checked)}
-            style={{ marginTop: 2, accentColor: '#9B2035', flexShrink: 0 }}
-          />
-          <span style={{ color: attempted && !datenschutz ? '#b91c1c' : '#374151', flex: 1 }}>{t.dsgvo}</span>
-        </label>
+        <div style={{ display: 'table', width: '100%' }}>
+          <div style={{ display: 'table-cell', width: 22, verticalAlign: 'top', paddingTop: 2 }}>
+            <input
+              type="checkbox"
+              checked={datenschutz}
+              onChange={e => onDatenschutz(e.target.checked)}
+              style={{ accentColor: '#9B2035', cursor: 'pointer' }}
+            />
+          </div>
+          <div
+            style={{ display: 'table-cell', fontSize: 13, color: attempted && !datenschutz ? '#b91c1c' : '#374151', cursor: 'pointer' }}
+            onClick={() => onDatenschutz(!datenschutz)}
+          >
+            {t.dsgvo}
+          </div>
+        </div>
         {attempted && !datenschutz && (
           <div style={{ color: '#b91c1c', fontSize: 12, marginTop: 6 }}>{t.dsgvoRequired}</div>
         )}
