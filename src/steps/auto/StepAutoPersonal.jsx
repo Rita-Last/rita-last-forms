@@ -170,8 +170,8 @@ export default function StepAutoPersonal({ data, onChange, onNext, lang = 'de' }
       {/* Unfallfrei */}
       <div style={{ marginTop: 20, marginBottom: 16 }}>
         <label style={{
-          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 10,
-          color: attempted && !data.unfallfrei ? '#b91c1c' : '#374151'
+          display: 'block', marginBottom: 10,
+          color: attempted && !data.unfallfrei ? '#b91c1c' : '#1a1a2e'
         }}>
           {t.unfallfrei} <span style={{ color: '#cc0000' }}>*</span>
         </label>
@@ -191,8 +191,8 @@ export default function StepAutoPersonal({ data, onChange, onNext, lang = 'de' }
       {/* Fahrer unter 25 */}
       <div style={{ marginBottom: 24 }}>
         <label style={{
-          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 10,
-          color: attempted && !data.fahrer_unter_25 ? '#b91c1c' : '#374151'
+          display: 'block', marginBottom: 10,
+          color: attempted && !data.fahrer_unter_25 ? '#b91c1c' : '#1a1a2e'
         }}>
           {t.fahrer25} <span style={{ color: '#cc0000' }}>*</span>
         </label>

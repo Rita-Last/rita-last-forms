@@ -163,8 +163,8 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Kraftstoff */}
       <div style={{ marginTop: 16, marginBottom: 16 }}>
         <label style={{
-          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 10,
-          color: attempted && !data.kraftstoff ? '#b91c1c' : '#374151'
+          display: 'block', marginBottom: 10,
+          color: attempted && !data.kraftstoff ? '#b91c1c' : '#1a1a2e'
         }}>
           {t.kraftstoff} <span style={{ color: '#cc0000' }}>*</span>
         </label>
@@ -179,8 +179,8 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Türen */}
       <div style={{ marginBottom: 16 }}>
         <label style={{
-          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 10,
-          color: attempted && !data.tueren ? '#b91c1c' : '#374151'
+          display: 'block', marginBottom: 10,
+          color: attempted && !data.tueren ? '#b91c1c' : '#1a1a2e'
         }}>
           {t.tueren} <span style={{ color: '#cc0000' }}>*</span>
         </label>
@@ -193,8 +193,8 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Extras */}
       <div style={{ marginBottom: 16 }}>
         <label style={{
-          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 6,
-          color: attempted && !data.extras ? '#b91c1c' : '#374151'
+          display: 'block', marginBottom: 6,
+          color: attempted && !data.extras ? '#b91c1c' : '#1a1a2e'
         }}>
           {t.extras} <span style={{ color: '#cc0000' }}>*</span>
         </label>
@@ -223,8 +223,8 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
       {/* Private Nutzung */}
       <div style={{ marginBottom: 24 }}>
         <label style={{
-          fontSize: 16, fontWeight: 600, display: 'block', marginBottom: 6,
-          color: attempted && !data.privat_nutzung ? '#b91c1c' : '#374151'
+          display: 'block', marginBottom: 6,
+          color: attempted && !data.privat_nutzung ? '#b91c1c' : '#1a1a2e'
         }}>
           {t.privat} <span style={{ color: '#cc0000' }}>*</span>
         </label>
