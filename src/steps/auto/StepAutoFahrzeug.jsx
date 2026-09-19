@@ -7,10 +7,11 @@ const T = {
     subtitle: 'Angaben zum zu versichernden Fahrzeug.',
     errorHeader: '❌ Bitte füllen Sie alle Pflichtfelder aus:',
     marke: 'Marke', modell: 'Modell',
-    version: 'Version', versionPlaceholder: 'z.B. Confortline, Sport, Premium',
+    version: 'Version / Ausstattungslinie (z.B. Style, Comfortline, Sport, etc.)', versionPlaceholder: 'z.B. Confortline, Sport, Premium',
     ps: 'PS', psPlaceholder: 'z.B. 120',
     kraftstoff: 'Kraftstoff', diesel: 'Diesel', benzin: 'Benzin', elektrisch: 'Elektrisch', hybrid: 'Hybrid',
-    tueren: 'Anzahl Türen', drei: '3 Türer', fuenf: '5 Türer',
+    getriebe: 'Getriebeart', automatik: 'Automatik', schaltgetriebe: 'Schaltgetriebe',
+    tueren: 'Anzahl Türen', drei: '3 Türen', fuenf: '5 Türen',
     ccm: 'Hubraum (ccm)', ccmPlaceholder: 'z.B. 1600',
     baujahr: 'Baujahr', baujahrPlaceholder: 'z.B. 2019',
     kennzeichen: 'Kennzeichen', kennzeichenPlaceholder: 'z.B. PM-1234-AB',
@@ -25,7 +26,7 @@ const T = {
     ja: 'Ja', nein: 'Nein',
     errors: {
       marke: 'Marke', modell: 'Modell', version: 'Version', ps: 'PS',
-      kraftstoff: 'Kraftstoff', tueren: 'Anzahl Türen',
+      kraftstoff: 'Kraftstoff', getriebe: 'Getriebeart', tueren: 'Anzahl Türen',
       baujahr: 'Baujahr', kennzeichen: 'Kennzeichen',
       extras: 'Extras (Ja/Nein)', privat: 'Private Nutzung (Ja/Nein)',
     },
@@ -37,9 +38,10 @@ const T = {
     subtitle: 'Details about the vehicle to be insured.',
     errorHeader: '❌ Please fill in all required fields:',
     marke: 'Make', modell: 'Model',
-    version: 'Version', versionPlaceholder: 'e.g. Comfortline, Sport, Premium',
+    version: 'Version / Trim level (e.g. Style, Comfortline, Sport, etc.)', versionPlaceholder: 'e.g. Comfortline, Sport, Premium',
     ps: 'Horsepower (HP)', psPlaceholder: 'e.g. 120',
     kraftstoff: 'Fuel type', diesel: 'Diesel', benzin: 'Petrol', elektrisch: 'Electric', hybrid: 'Hybrid',
+    getriebe: 'Transmission', automatik: 'Automatic', schaltgetriebe: 'Manual',
     tueren: 'Number of doors', drei: '3 doors', fuenf: '5 doors',
     ccm: 'Engine displacement (cc)', ccmPlaceholder: 'e.g. 1600',
     baujahr: 'Year of manufacture', baujahrPlaceholder: 'e.g. 2019',
@@ -55,7 +57,7 @@ const T = {
     ja: 'Yes', nein: 'No',
     errors: {
       marke: 'Make', modell: 'Model', version: 'Version', ps: 'Horsepower',
-      kraftstoff: 'Fuel type (Diesel/Petrol)', tueren: 'Number of doors',
+      kraftstoff: 'Fuel type (Diesel/Petrol)', getriebe: 'Transmission', tueren: 'Number of doors',
       baujahr: 'Year of manufacture', kennzeichen: 'Number plate',
       extras: 'Extras (Yes/No)', privat: 'Private use only (Yes/No)',
     },
@@ -75,7 +77,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
   });
 
   const textFields = ['marke', 'modell', 'version', 'ps', 'baujahr', 'kennzeichen'];
-  const radioFields = ['kraftstoff', 'tueren', 'extras', 'privat_nutzung'];
+  const radioFields = ['kraftstoff', 'getriebeart', 'tueren', 'extras', 'privat_nutzung'];
 
   const canNext =
     textFields.every(f => data[f]) &&
@@ -96,6 +98,7 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
     !data.version && t.errors.version,
     !data.ps && t.errors.ps,
     !data.kraftstoff && t.errors.kraftstoff,
+    !data.getriebeart && t.errors.getriebe,
     !data.tueren && t.errors.tueren,
     !data.baujahr && t.errors.baujahr,
     !data.kennzeichen && t.errors.kennzeichen,
@@ -173,6 +176,20 @@ export default function StepAutoFahrzeug({ data, onChange, onNext, onPrev, lang 
           <div style={radioStyle('kraftstoff', 'benzin')} onClick={() => onChange({ kraftstoff: 'benzin' })}>⛽ {t.benzin}</div>
           <div style={radioStyle('kraftstoff', 'elektrisch')} onClick={() => onChange({ kraftstoff: 'elektrisch' })}>⚡ {t.elektrisch}</div>
           <div style={radioStyle('kraftstoff', 'hybrid')} onClick={() => onChange({ kraftstoff: 'hybrid' })}>🔋 {t.hybrid}</div>
+        </div>
+      </div>
+
+      {/* Getriebeart */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{
+          display: 'block', marginBottom: 10,
+          color: attempted && !data.getriebeart ? '#b91c1c' : '#1a1a2e'
+        }}>
+          {t.getriebe} <span style={{ color: '#cc0000' }}>*</span>
+        </label>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <div style={radioStyle('getriebeart', 'automatik')} onClick={() => onChange({ getriebeart: 'automatik' })}>⚙️ {t.automatik}</div>
+          <div style={radioStyle('getriebeart', 'schaltgetriebe')} onClick={() => onChange({ getriebeart: 'schaltgetriebe' })}>🔧 {t.schaltgetriebe}</div>
         </div>
       </div>
 

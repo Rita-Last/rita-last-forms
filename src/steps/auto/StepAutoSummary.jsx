@@ -11,7 +11,7 @@ const T = {
     unfallfreiInfo: 'Details (Unfallfrei)', fahrer25: 'Fahrer unter 25',
     fahrer25Info: 'Details (Fahrer u. 25)',
     marke: 'Marke', modell: 'Modell', version: 'Version', ps: 'PS',
-    kraftstoff: 'Kraftstoff', tueren: 'Türen', baujahr: 'Baujahr',
+    kraftstoff: 'Kraftstoff', getriebe: 'Getriebeart', tueren: 'Türen', baujahr: 'Baujahr',
     kennzeichen: 'Kennzeichen', ccm: 'Hubraum (ccm)',
     extras: 'Extras/Sonderausstattung',
     extrasInfo: 'Details (Extras)', privat: 'Nur private Nutzung',
@@ -37,7 +37,7 @@ const T = {
     unfallfreiInfo: 'Details (accident-free)', fahrer25: 'Driver under 25',
     fahrer25Info: 'Details (driver u. 25)',
     marke: 'Make', modell: 'Model', version: 'Version', ps: 'HP',
-    kraftstoff: 'Fuel', tueren: 'Doors', baujahr: 'Year',
+    kraftstoff: 'Fuel', getriebe: 'Transmission', tueren: 'Doors', baujahr: 'Year',
     kennzeichen: 'Number plate', ccm: 'Engine displacement (cc)',
     extras: 'Extras / Special equipment',
     extrasInfo: 'Details (extras)', privat: 'Private use only',
@@ -86,6 +86,8 @@ export default function StepAutoSummary({
 
   const kraftstoffMap = { diesel: t.diesel, benzin: t.benzin, elektrisch: t.elektrisch, hybrid: t.hybrid };
   const kraftstoffLabel = kraftstoffMap[fahrzeug?.kraftstoff] || fahrzeug?.kraftstoff || '';
+  const getriebeMap = { automatik: lang === 'en' ? 'Automatic' : 'Automatik', schaltgetriebe: lang === 'en' ? 'Manual' : 'Schaltgetriebe' };
+  const getriebeLabel = getriebeMap[fahrzeug?.getriebeart] || fahrzeug?.getriebeart || '';
   const tuerenLabel = fahrzeug?.tueren === '3' ? t.drei : fahrzeug?.tueren === '5' ? t.fuenf : fahrzeug?.tueren || '';
   const jaNein = (val) => val === 'ja' ? t.ja : val === 'nein' ? t.nein : val || '';
 
@@ -126,6 +128,7 @@ export default function StepAutoSummary({
         <Row label={t.ps} value={fahrzeug?.ps} />
         <Row label={t.ccm} value={fahrzeug?.ccm} />
         <Row label={t.kraftstoff} value={kraftstoffLabel} />
+        <Row label={t.getriebe} value={getriebeLabel} />
         <Row label={t.tueren} value={tuerenLabel} />
         <Row label={t.baujahr} value={fahrzeug?.baujahr} />
         <Row label={t.kennzeichen} value={fahrzeug?.kennzeichen} />

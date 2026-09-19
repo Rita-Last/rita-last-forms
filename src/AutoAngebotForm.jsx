@@ -16,7 +16,7 @@ const INITIAL_DATA = {
   },
   fahrzeug: {
     marke: '', modell: '', version: '', ps: '', ccm: '',
-    kraftstoff: '', tueren: '', baujahr: '', kennzeichen: '',
+    kraftstoff: '', getriebeart: '', tueren: '', baujahr: '', kennzeichen: '',
     extras: '', extras_info: '',
     privat_nutzung: '', privat_nutzung_info: '',
   },
@@ -49,7 +49,7 @@ function stepStatus(formData, idx) {
   if (idx === 1) {
     const required = [
       fahrzeug.marke, fahrzeug.modell, fahrzeug.version, fahrzeug.ps,
-      fahrzeug.kraftstoff, fahrzeug.tueren, fahrzeug.baujahr, fahrzeug.kennzeichen,
+      fahrzeug.kraftstoff, fahrzeug.getriebeart, fahrzeug.tueren, fahrzeug.baujahr, fahrzeug.kennzeichen,
       fahrzeug.extras, fahrzeug.privat_nutzung,
     ];
     const filled = required.filter(Boolean).length;
